@@ -1,0 +1,70 @@
+---
+description: Full-stack Next.js 15 (App Router + React 19) project rules with Tailwind, ShadCN, Prisma, Postgres, Framer Motion, and Stripe
+globs: ["**/*.ts", "**/*.tsx"]
+alwaysApply: true
+---
+
+# 🤖 Meta Communication Rule
+
+- Prefix every AI-generated chat or code explanation with the robot emoji "🤖" to verify that context rules are being followed.
+
+# 🌐 Next.js 15 + App Router
+
+- Use `app/` directory for all routes.
+- Structure routes with `layout.tsx`, `page.tsx`, `loading.tsx`, and `error.tsx` as needed.
+- Prefer server components by default. Use `use client` only where interactivity is required.
+- Use file-based routing conventions — no custom routers unless absolutely needed.
+- Co-locate route-specific components within their own folder.
+
+# ⚛️ React 19
+
+- Prefer functional components only.
+- Use `useEffect`, `useState`, `useOptimistic`, and other hooks mindfully — avoid excessive re-renders.
+- Use `useTransition` for low-priority updates (e.g., filters, sorting).
+- Avoid anonymous functions in JSX props.
+
+# 🎨 Tailwind + ShadCN
+
+- Keep className strings organized: group layout, spacing, typography, then state (e.g., `flex items-center gap-4 text-sm hover:underline`).
+- Use ShadCN components for UI primitives like buttons, modals, and inputs. Extend rather than re-implement.
+- Abstract repeated UI patterns into `components/ui/`.
+- Don’t override Tailwind styles with custom CSS unless needed.
+
+# 🧙 Prisma + Postgres
+
+- Define all Prisma models clearly in `schema.prisma` using snake_case for database fields.
+- Use `lib/prisma.ts` for a singleton PrismaClient.
+- Keep queries in server actions or API routes only — no direct client access.
+- Use `select`/`include` for limiting returned fields.
+- Validate user input before passing to Prisma using `zod`.
+
+# 🎞️ Framer Motion
+
+- Use `motion` elements only when animation is actually needed.
+- Define `variants` and `transition` outside of render function.
+- Keep animations subtle — motion should serve UX, not distract from it.
+- Use Framer Motion layout transitions where elements change position.
+
+# 💳 Stripe
+
+- All Stripe logic should live in `lib/stripe/` or inside `app/api/checkout`.
+- Never expose Stripe secret keys on the client.
+- Use `checkout.sessions.create()` securely in server actions or API routes.
+- Handle Stripe webhooks in `app/api/webhooks/stripe/route.ts` and verify signatures.
+- Store only essential metadata on Stripe objects.
+
+# 🧼 Clean Code Principles
+
+- Functions should be single-responsibility. Max 20 lines unless unavoidable.
+- Descriptive naming only — no `data1`, `x`, or `thing`.
+- Early return > deep nesting.
+- Comment _why_, not _what_.
+- Delete dead code — no commented-out blocks.
+- Keep component files under ~100 lines if possible — split logic/hooks.
+
+# 🔒 Security + Performance
+
+- Sanitize all user input before DB or API usage.
+- Use async/await with try/catch in API routes.
+- Lazy load large components and external libraries using dynamic imports.
+- Avoid unguarded SSR logic — always check for session/auth where needed.
