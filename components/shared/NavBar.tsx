@@ -15,6 +15,56 @@ import {
 import { Menu } from "lucide-react";
 import VideoModal from "@/components/shared/VideoModal";
 import ThemeToggle from "@/components/shared/ThemeToggle";
+import { usePathname } from "next/navigation";
+
+// Custom hook to track section visibility
+const useActiveSection = () => {
+  const [activeSection, setActiveSection] = useState("");
+  const pathname = usePathname();
+
+  useEffect(() => {
+    // If we're on a non-hash route, set it as active
+    if (pathname && pathname !== "/") {
+      setActiveSection(pathname);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.id;
+            setActiveSection(sectionId ? `/#${sectionId}` : "");
+          }
+        });
+      },
+      {
+        rootMargin: "-65% 0px -35% 0px", // Only trigger when well into the section
+        threshold: 0,
+      }
+    );
+
+    // Observe all sections
+    const sections = ["about", "why-us", "pricing", "contact"]
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    sections.forEach((section) => {
+      if (section) observer.observe(section);
+    });
+
+    return () => {
+      sections.forEach((section) => {
+        if (section) observer.unobserve(section);
+      });
+    };
+  }, [pathname]);
+
+  return {
+    activeSection,
+    setActiveSection,
+  };
+};
 
 const NavItems = ({
   className = "",
@@ -27,30 +77,50 @@ const NavItems = ({
     { label: "About", href: "/#about" },
     { label: "Why Us", href: "/#why-us" },
     { label: "Pricing", href: "/#pricing" },
-    { label: "How It Works", href: "#", onClick: onHowItWorks },
+    { label: "Contact", href: "/#contact" },
+    { label: "Blog", href: "/blog" },
+    { label: "How It Works", href: "#", onClick: onHowItWorks, isModal: true },
   ];
 
+  const { activeSection, setActiveSection } = useActiveSection();
+
+  const handleClick = (href: string) => {
+    setActiveSection(href);
+  };
+
   return (
-    <div className={`flex ${className}`}>
-      {items.map((item) =>
-        item.onClick ? (
-          <button
-            key={item.label}
-            onClick={item.onClick}
-            className="text-muted-foreground hover:text-foreground transition-colors text-left cursor-pointer"
-          >
-            {item.label}
-          </button>
-        ) : (
-          <Link
-            key={item.label}
-            href={item.href}
-            className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-          >
-            {item.label}
-          </Link>
-        )
-      )}
+    <div className={`flex items-center ${className}`}>
+      {items.map((item) => {
+        const isActive =
+          !item.isModal &&
+          (item.href === activeSection ||
+            (item.href.startsWith("/#") &&
+              activeSection === item.href.substring(1)));
+
+        const itemClasses = `block px-3 py-2 transition-colors cursor-pointer ${
+          isActive
+            ? "text-primary font-medium"
+            : "text-muted-foreground hover:text-primary"
+        }`;
+
+        return (
+          <div key={item.label}>
+            {item.onClick ? (
+              <button onClick={item.onClick} className={itemClasses}>
+                {item.label}
+              </button>
+            ) : (
+              <Link
+                href={item.href}
+                className={itemClasses}
+                onClick={() => handleClick(item.href)}
+              >
+                {item.label}
+              </Link>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -74,23 +144,29 @@ const NavBar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <Image
-              src={logoSrc}
-              alt="TrackZero"
-              width={160}
-              height={160}
-              className="h-42 w-auto max-sm:h-24 max-sm:w-auto"
-              priority
-            />
-          </Link>
+          <div className="flex-shrink-0">
+            <Link href="/" className="flex items-center">
+              <Image
+                src={logoSrc}
+                alt="TrackZero"
+                width={160}
+                height={160}
+                className="h-42 w-auto max-sm:h-24 max-sm:w-auto"
+                priority
+              />
+            </Link>
+          </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex md:flex-1 md:justify-center">
             <NavItems
               className="space-x-8"
               onHowItWorks={() => setShowVideo(true)}
             />
+          </div>
+
+          {/* Right Side Elements */}
+          <div className="hidden md:flex items-center space-x-4">
             <ThemeToggle />
             <Button className="cursor-pointer">Sign In</Button>
           </div>

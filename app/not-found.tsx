@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50/50 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-background relative overflow-hidden">
       {/* Animated Background Elements */}
       <motion.div
         animate={{
@@ -18,9 +18,9 @@ export default function NotFound() {
           repeat: Infinity,
           ease: "linear",
         }}
-        className="absolute opacity-5"
+        className="absolute opacity-5 dark:opacity-10"
       >
-        <Cog size={400} />
+        <Cog size={400} className="text-foreground" />
       </motion.div>
 
       <motion.div
@@ -32,9 +32,9 @@ export default function NotFound() {
           repeat: Infinity,
           ease: "linear",
         }}
-        className="absolute opacity-5 -right-20 top-20"
+        className="absolute opacity-5 dark:opacity-10 -right-20 top-20"
       >
-        <Cog size={300} />
+        <Cog size={300} className="text-foreground" />
       </motion.div>
 
       <div className="relative z-10 text-center px-4">
@@ -51,10 +51,12 @@ export default function NotFound() {
           >
             <Wrench size={48} className="text-primary mr-2" />
           </motion.div>
-          <h1 className="text-6xl font-black font-headings">404</h1>
+          <h1 className="text-6xl font-black font-headings text-foreground">
+            404
+          </h1>
         </div>
 
-        <h2 className="text-2xl font-semibold mb-4">
+        <h2 className="text-2xl font-semibold mb-4 text-foreground">
           Looks like this component needs maintenance
         </h2>
 
