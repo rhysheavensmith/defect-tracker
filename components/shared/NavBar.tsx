@@ -184,14 +184,14 @@ const NavBar = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0">
-                <SheetHeader className="border-b">
+                <SheetHeader className="border-b p-3">
                   <SheetTitle className="flex items-center">
                     <Image
                       src={logoSrc}
                       alt="TrackZero"
-                      width={120}
-                      height={120}
-                      className="h-24 w-auto"
+                      width={100}
+                      height={100}
+                      className="h-16 w-auto"
                       priority
                     />
                   </SheetTitle>

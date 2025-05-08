@@ -65,7 +65,7 @@ const PricingCard = ({
     <Button
       className={`w-full cursor-pointer ${
         isPopular
-          ? "bg-primary-foreground text-primary hover:bg-primary-foreground/90 dark:hover:bg-primary-foreground/80"
+          ? "bg-primary-foreground hover:text-green-800 text-primary hover:bg-primary-foreground dark:hover:bg-primary-foreground"
           : ""
       }`}
       variant={isPopular ? "ghost" : "default"}

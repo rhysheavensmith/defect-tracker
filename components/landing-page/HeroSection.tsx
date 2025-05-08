@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PlayCircle, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 import VideoModal from "@/components/shared/VideoModal";
+import ScrollIndicator from "@/components/ui/scroll-indicator/ScrollIndicator";
 
 const HeroSection = () => {
   const [showVideo, setShowVideo] = useState(false);
@@ -33,7 +34,7 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center">
+    <div className="relative h-[100vh] flex items-center justify-center">
       <motion.div
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24"
         variants={container}
@@ -77,15 +78,7 @@ const HeroSection = () => {
         </div>
       </motion.div>
 
-      {/* Background Gradient Effect */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5 }}
-        className="absolute inset-0 -z-10 h-full w-full bg-background"
-      >
-        <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-background to-accent/10 dark:from-primary/5 dark:via-background dark:to-accent/5" />
-      </motion.div>
+      <ScrollIndicator />
 
       <VideoModal
         isOpen={showVideo}
