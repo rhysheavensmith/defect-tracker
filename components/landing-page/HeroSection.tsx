@@ -15,20 +15,20 @@ const HeroSection = () => {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
+        staggerChildren: 0.4,
+        delayChildren: 0.3,
       },
     },
   };
 
   const item = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 40 },
     show: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
-        ease: [0.04, 0.62, 0.23, 0.98],
+        duration: 1.2,
+        ease: [0.22, 0.61, 0.36, 1],
       },
     },
   };

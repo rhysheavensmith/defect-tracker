@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Source_Code_Pro, Open_Sans } from "next/font/google";
+import { Work_Sans, Barlow_Semi_Condensed } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import NavBar from "@/components/shared/NavBar";
 import Footer from "@/components/shared/Footer";
 
 import "./globals.css";
 
-const sourceSans = Source_Code_Pro({
+const barlowSemiCondensed = Barlow_Semi_Condensed({
   variable: "--font-source-sans",
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-const openSans = Open_Sans({
+const workSans = Work_Sans({
   variable: "--font-open-sans",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -88,7 +88,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${sourceSans.variable} ${openSans.variable} antialiased`}
+        className={`${barlowSemiCondensed.variable} ${workSans.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"
